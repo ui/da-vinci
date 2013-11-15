@@ -57,7 +57,7 @@ class Image(object):
         """Returns the underlying PIL image for more extensive manipulation."""
         return self._pil_image
 
-    def update_pil_image(self, pil_image):
+    def set_pil_image(self, pil_image):
         self._pil_image = pil_image
 
     def flip(self, direction):
