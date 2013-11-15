@@ -52,3 +52,17 @@ def parse_dimension(value, original_dimension):
         if value.rfind('%'):
             return int(int(value.split('%')[0]) * original_dimension / 100)
         raise
+
+
+def get_box_dimensions(width, height, original_width, original_height,
+                       center_offset):
+    """Returns proper box coordinate for cropping in Pillow."""
+    x_offset = center_offset[0]
+    y_offset = center_offset[1]
+    width_offset = int(width / 2)
+    height_offset = int(height / 2)
+    left = x_offset - width_offset
+    upper = y_offset - height_offset
+    right = x_offset + width_offset
+    lower = y_offset + height_offset
+    return (left, upper, right, lower)

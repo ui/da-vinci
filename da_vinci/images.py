@@ -6,7 +6,7 @@ import urllib
 
 from PIL import Image as PILImage
 
-from .utils import calculate_dimensions
+from .utils import calculate_dimensions, get_box_dimensions, parse_dimension
 
 
 class Image(object):
@@ -28,6 +28,7 @@ class Image(object):
             self._pil_image = PILImage.open(file)
             self.filename = None
             self.name = os.path.basename(url)
+        self.format = self._pil_image.format
 
     @property
     def width(self):
@@ -44,10 +45,6 @@ class Image(object):
     @property
     def info(self):  # Should this be renamed to metadata?
         return self._pil_image.info
-
-    @property
-    def format(self):
-        return self._pil_image.format
 
     @property
     def mode(self):
@@ -106,8 +103,19 @@ class Image(object):
             filter=PILImage.ANTIALIAS
         )
 
-    def crop(self):
-        pass
+    def crop(self, width, height, center_offset=('50%', '50%'),
+             shape='rectangle'):
+        center_offset = (
+            parse_dimension(center_offset[0], self.width),
+            parse_dimension(center_offset[1], self.height)
+        )
+        self._pil_image = self._pil_image.crop(
+            get_box_dimensions(
+                width, height,
+                self.width, self.height,
+                center_offset=center_offset,
+            )
+        )
 
 
 def from_file(path_or_file):

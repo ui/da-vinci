@@ -139,6 +139,7 @@ class ImageTest(unittest.TestCase):
 
     def test_saving_image_from_url(self):
         image = images.from_url('http://stamps.co.id/static/merchants/img/logo.png')
+        self.assertEqual(image.format, 'PNG')
         image.save()
         os.remove(image.filename)
 
@@ -149,6 +150,7 @@ class ImageTest(unittest.TestCase):
         - image.filename = 'bob.jpg'; image.save()
         """
         image = images.from_file('tests/10x10.jpg')
+        self.assertEqual(image.format, 'JPEG')
         new_filename = 'tests/save.jpg'
         image.save(new_filename)
         self.assertEqual(image.filename, new_filename)
