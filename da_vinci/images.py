@@ -100,7 +100,7 @@ class Image(object):
         """
         self._pil_image = self._pil_image.resize(
             calculate_dimensions(width, height, self.width, self.height, method),
-            filter=PILImage.ANTIALIAS
+            resample=PILImage.ANTIALIAS
         )
 
     def crop(self, width, height, center_offset=('50%', '50%'),
