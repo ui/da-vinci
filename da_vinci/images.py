@@ -101,9 +101,10 @@ class Image(object):
           dimension is completely covered. Aspect ratio is preserved, parts of
           the image may not be within the specified dimension.
         """
-        self._pil_image = self._pil_image.resize(calculate_dimensions(
-            width, height, self.width, self.height, method
-        ))
+        self._pil_image = self._pil_image.resize(
+            calculate_dimensions(width, height, self.width, self.height, method),
+            filter=PILImage.ANTIALIAS
+        )
 
     def crop(self):
         pass
