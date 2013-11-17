@@ -13,10 +13,11 @@ Example usage::
     image.resize(width=10, height=10)
     image.save()
 
-    # Opening an image from URL
+    # Opening an image from URL, rotating and change it's format
     image = images.from_url('http://stamps.co.id/static/merchants/img/logo.png')
     image.rotate(degrees=90)
-    image.save('b.png')
+    image.format = 'jpg'
+    image.save() # Creates a file logo.jpg
 
 If you need to do more extensive manipulation, an escape hatch to PIL
 is also available::

@@ -139,7 +139,7 @@ class ImageTest(unittest.TestCase):
 
     def test_saving_image_from_url(self):
         image = images.from_url('http://stamps.co.id/static/merchants/img/logo.png')
-        self.assertEqual(image.format, 'PNG')
+        self.assertEqual(image._format, 'PNG')
         image.save()
         os.remove(image.filename)
 
@@ -150,7 +150,7 @@ class ImageTest(unittest.TestCase):
         - image.filename = 'bob.jpg'; image.save()
         """
         image = images.from_file('tests/10x10.jpg')
-        self.assertEqual(image.format, 'JPEG')
+        self.assertEqual(image._format, 'JPEG')
         new_filename = 'tests/save.jpg'
         image.save(new_filename)
         self.assertEqual(image.filename, new_filename)
@@ -174,4 +174,20 @@ class ImageTest(unittest.TestCase):
         self.assertEqual(image.width, 10)
         self.assertEqual(image.height, 20)
 
+    def test_format_getter_setter(self):
+        image = images.from_file('tests/10x20.jpg')
+        image.format = 'JPG'
+        self.assertEqual(image.format, 'JPEG')
+        image.format = 'png'
+        self.assertEqual(image.format, 'PNG')
 
+    def test_get_filename(self):
+        # get_filename return its original filename if there's no changes
+        image = images.from_file('tests/10x20.jpg')
+        self.assertEqual(image.get_filename(), 'tests/10x20.jpg')
+        # get_filename returns the right filename if format is changed
+        image.set_format('png')
+        self.assertEqual(image.get_filename(), 'tests/10x20.png')
+        # get_filename falls back to self.name 
+        image.filename = None
+        self.assertEqual(image.get_filename(), '10x20.png')

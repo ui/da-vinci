@@ -6,6 +6,7 @@ import urllib
 
 from PIL import Image as PILImage
 
+from . import formats
 from .utils import calculate_dimensions, get_box_dimensions, parse_dimension
 
 
@@ -28,7 +29,7 @@ class Image(object):
             self._pil_image = PILImage.open(file)
             self.filename = None
             self.name = os.path.basename(url)
-        self.format = self._pil_image.format
+        self._format = self._pil_image.format
 
     @property
     def width(self):
@@ -50,6 +51,22 @@ class Image(object):
     def mode(self):
         return self._pil_image.mode
 
+    def set_format(self, format):
+        if isinstance(format, basestring):
+            format = format.lower()
+        self._format = formats.MAPPING[format]
+
+    def get_format(self):
+        return self._format
+
+    format = property(get_format, set_format)
+
+    def get_filename(self):
+        """Generates a suitable filename based on image name and format."""
+        name = self.filename or self.name
+        filename, extension = os.path.splitext(name)
+        return '%s.%s' % (filename, formats.EXTENSIONS[self.format])
+
     def get_pil_image(self):
         """Returns the underlying PIL image for more extensive manipulation."""
         return self._pil_image
@@ -70,21 +87,21 @@ class Image(object):
         """Rotates image by specified number of degrees."""
         self._pil_image = self._pil_image.rotate(degrees)
 
-    def save(self, filename=None, format=None, quality=None):
+    def save(self, filename=None):
         """Saves the image to disk. If image doesn't have a filename, it's
         assigned one.
         """
         if filename is None:
             filename = self.filename or self.name
-        self.filename = filename
+        else:
+            self.filename = filename
+
+        self.filename = self.get_filename()
         
         kwargs = {
-            'format': format or self.format,
-            'fp': filename,
+            'format': self._format,
+            'fp': self.filename,
         }
-        if quality is not None:
-            kwargs['quality'] = quality
-
         self._pil_image.save(**kwargs)
 
     # Should this accept percentages for width and height?
