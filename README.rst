@@ -8,9 +8,10 @@ Example usage::
 
     from da_vinci import images
 
-    image = image.from_file('a.jpg')
+    image = image.from_file('lena.jpg')
     image.flip('horizontal')
     image.resize(width=10, height=10)
+    image.quality = 65
     image.save()
 
     # Opening an image from URL, rotating and change it's format

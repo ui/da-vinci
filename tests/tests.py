@@ -186,8 +186,20 @@ class ImageTest(unittest.TestCase):
         image = images.from_file('tests/10x20.jpg')
         self.assertEqual(image.get_filename(), 'tests/10x20.jpg')
         # get_filename returns the right filename if format is changed
-        image.set_format('png')
+        image.format = 'png'
         self.assertEqual(image.get_filename(), 'tests/10x20.png')
         # get_filename falls back to self.name 
         image.filename = None
         self.assertEqual(image.get_filename(), '10x20.png')
+
+    def test_quality(self):
+        # Setting quality parameter shouldn't mess up image.save
+        image = images.from_file('tests/10x20.jpg')
+        new_filename = 'tests/save2.jpg'
+        image.quality = 85
+        image.save(new_filename)
+        os.remove(image.filename)
+
+        image.format = 'png'
+        image.save(new_filename)
+        os.remove(image.filename)

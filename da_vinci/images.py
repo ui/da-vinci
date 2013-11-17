@@ -30,6 +30,7 @@ class Image(object):
             self.filename = None
             self.name = os.path.basename(url)
         self._format = self._pil_image.format
+        self._quality = None
 
     @property
     def width(self):
@@ -51,15 +52,23 @@ class Image(object):
     def mode(self):
         return self._pil_image.mode
 
-    def set_format(self, format):
+    def _set_format(self, format):
         if isinstance(format, basestring):
             format = format.lower()
         self._format = formats.MAPPING[format]
 
-    def get_format(self):
+    def _get_format(self):
         return self._format
 
-    format = property(get_format, set_format)
+    format = property(_get_format, _set_format)
+
+    def _get_quality(self):
+        return self._quality
+
+    def _set_quality(self, quality):
+        self._quality = quality
+
+    quality = property(_get_quality, _set_quality)
 
     def get_filename(self):
         """Generates a suitable filename based on image name and format."""
@@ -102,6 +111,9 @@ class Image(object):
             'format': self._format,
             'fp': self.filename,
         }
+        if self.quality is not None:
+            kwargs['quality'] = self.quality
+        
         self._pil_image.save(**kwargs)
 
     # Should this accept percentages for width and height?
