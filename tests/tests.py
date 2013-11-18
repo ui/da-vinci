@@ -1,3 +1,4 @@
+import io
 import os
 import unittest
 
@@ -22,7 +23,7 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(dimensions, (2, 2))
         self.assertIsInstance(dimensions[0], int)
         self.assertIsInstance(dimensions[1], int)
-        
+
         dimensions = calculate_dimensions(width=None, height=2, **kwargs)
         self.assertEqual(dimensions, (2, 2))
         self.assertIsInstance(dimensions[0], int)
@@ -52,12 +53,12 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(dimensions, (2, 4))
         self.assertIsInstance(dimensions[0], int)
         self.assertIsInstance(dimensions[1], int)
-        
+
         dimensions = calculate_dimensions(width=None, height=2, **kwargs)
         self.assertEqual(dimensions, (1, 2))
         self.assertIsInstance(dimensions[0], int)
         self.assertIsInstance(dimensions[1], int)
-    
+
     def test_calculate_dimensions_aspect_ratio(self):
         # Square original image
         kwargs = {
@@ -147,15 +148,21 @@ class ImageTest(unittest.TestCase):
         """
         Ensure that these works:
         - image.save(filename='alice.jpg')
+        - image.save(file=<File-Like Object>)
         - image.filename = 'bob.jpg'; image.save()
         """
         image = images.from_file('tests/10x10.jpg')
         self.assertEqual(image._format, 'JPEG')
         new_filename = 'tests/save.jpg'
-        image.save(new_filename)
+        image.save(filename=new_filename)
         self.assertEqual(image.filename, new_filename)
         self.assertTrue(os.path.exists(new_filename))
         os.remove(new_filename)
+
+        file_like_object = io.BytesIO()
+        self.assertEqual(file_like_object.getvalue(), '')
+        image.save(file=file_like_object)
+        self.assertNotEqual(file_like_object.getvalue(), '')
 
         new_filename = 'tests/save2.jpg'
         image.filename = new_filename
@@ -188,7 +195,7 @@ class ImageTest(unittest.TestCase):
         # get_filename returns the right filename if format is changed
         image.format = 'png'
         self.assertEqual(image.get_filename(), 'tests/10x20.png')
-        # get_filename falls back to self.name 
+        # get_filename falls back to self.name
         image.filename = None
         self.assertEqual(image.get_filename(), '10x20.png')
 
