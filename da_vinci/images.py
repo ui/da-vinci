@@ -132,17 +132,17 @@ class Image(object):
             resample=PILImage.ANTIALIAS
         )
 
-    def crop(self, width, height, center_offset=('50%', '50%'),
+    def crop(self, width, height, center=('50%', '50%'),
              shape='rectangle'):
-        center_offset = (
-            parse_dimension(center_offset[0], self.width),
-            parse_dimension(center_offset[1], self.height)
+        center = (
+            parse_dimension(center[0], self.width),
+            parse_dimension(center[1], self.height)
         )
         self._pil_image = self._pil_image.crop(
             get_box_dimensions(
                 width, height,
                 self.width, self.height,
-                center_offset=center_offset,
+                center=center,
             )
         )
 
