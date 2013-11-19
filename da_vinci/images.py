@@ -96,24 +96,21 @@ class Image(object):
         """Rotates image by specified number of degrees."""
         self._pil_image = self._pil_image.rotate(degrees)
 
-    def save(self, filename=None):
+    def save(self, filename=None, file=None):
         """Saves the image to disk. If image doesn't have a filename, it's
         assigned one.
         """
-        if filename is None:
-            filename = self.filename or self.name
-        else:
+        if filename:
             self.filename = filename
 
         self.filename = self.get_filename()
-        
         kwargs = {
             'format': self._format,
-            'fp': self.filename,
+            'fp': file or self.filename,
         }
         if self.quality is not None:
             kwargs['quality'] = self.quality
-        
+
         self._pil_image.save(**kwargs)
 
     # Should this accept percentages for width and height?
