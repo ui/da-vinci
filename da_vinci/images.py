@@ -3,6 +3,7 @@ from __future__ import division
 import io
 import os
 import urllib
+from urlparse import urlparse
 
 from PIL import Image as PILImage
 
@@ -17,6 +18,8 @@ class Image(object):
         "filename" refers to image's file name on disk. If an image is opened
         from a URL, it doesn't have a filename until save() is called
         """
+        #result = urlparse(path_or_url)
+
         if path_or_file is None and url is None:
             raise ValueError('"path_or_file" or "url" argument is needed')
 
@@ -142,6 +145,14 @@ class Image(object):
                 center=center,
             )
         )
+
+    def adjust(sharpness=0, brightness=0, saturation=0, contrast=0):
+        """
+        Adjusts image's sharpness, brightness, saturation (color in PIL)
+        and contrast.
+        """
+        # Image will lose transparency info when saturation/contrast
+        # is changed, see https://github.com/jdriscoll/django-imagekit/issues/64
 
 
 def from_file(path_or_file):
