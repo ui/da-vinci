@@ -72,6 +72,17 @@ class Image(object):
 
     quality = property(_get_quality, _set_quality)
 
+    def set(self, format=None, quality=None):
+        """Converts image to specified kwargs. Supports format and quality.
+
+            image.set(format='jpg')
+            image.set(quality=85)  # In percent
+        """
+        if format is not None:
+            self._set_format(format)
+        if quality is not None:
+            self._set_quality(quality)
+
     def get_filename(self):
         """Generates a suitable filename based on image name and format."""
         name = self.filename or self.name

@@ -11,13 +11,12 @@ Example usage::
     image = Image('lena.jpg')
     image.flip('horizontal')
     image.resize(width=10, height=10)
-    image.quality = 65
     image.save()
 
     # Opening an image from URL, rotating and change it's format
     image = Image('http://stamps.co.id/static/merchants/img/logo.png')
     image.rotate(degrees=90)
-    image.format = 'jpg'
+    image.set(format='jpg', quality=85)
     image.save() # Creates a file logo.jpg
 
 If you need to do more extensive manipulation, an escape hatch to PIL
