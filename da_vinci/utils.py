@@ -65,3 +65,14 @@ def get_box_dimensions(width, height, original_width, original_height, center):
     right = x_offset + width_offset
     lower = y_offset + height_offset
     return (left, upper, right, lower)
+
+
+def convert_to_pil_factor(value):
+    """Takes a value from -100 to 100 and converts it for use in PIL's
+    ImageEnhance module, which operates on a scale of 0 to 2."""
+    if value == 0:
+        return 1
+    elif value < 0:
+        return 1- (abs(value) / 100)
+    else:
+        return (value / 100) + 1

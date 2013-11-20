@@ -3,7 +3,8 @@ import os
 import unittest
 
 from da_vinci import images
-from da_vinci.utils import calculate_dimensions, parse_dimension
+from da_vinci.utils import (calculate_dimensions, convert_to_pil_factor,
+                            parse_dimension)
 
 
 class UtilsTest(unittest.TestCase):
@@ -134,6 +135,13 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(parse_dimension(2, 10), 2)
         self.assertEqual(parse_dimension('2', 10), 2)
         self.assertEqual(parse_dimension('10%', 10), 1)
+
+    def test_convert_to_pil_factor(self):
+        self.assertEqual(convert_to_pil_factor(-100), 0)
+        self.assertEqual(convert_to_pil_factor(0), 1)
+        self.assertEqual(convert_to_pil_factor(100), 2)
+        self.assertEqual(convert_to_pil_factor(-50), 0.5)
+        self.assertEqual(convert_to_pil_factor(50), 1.5)
 
 
 class ImageTest(unittest.TestCase):

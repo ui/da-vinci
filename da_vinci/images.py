@@ -6,9 +6,11 @@ import urllib
 from urlparse import urlparse
 
 from PIL import Image as PILImage
+from PIL import ImageEnhance
 
 from . import formats
-from .utils import calculate_dimensions, get_box_dimensions, parse_dimension
+from .utils import (calculate_dimensions, convert_to_pil_factor,
+                    get_box_dimensions, parse_dimension)
 
 
 class Image(object):
@@ -89,6 +91,11 @@ class Image(object):
         filename, extension = os.path.splitext(name)
         return '%s.%s' % (filename, formats.EXTENSIONS[self.format])
 
+    def show(self):
+        """Displays the image, mainly for debugging purposes.
+        This simply calls PIL's image.show()"""
+        return self._pil_image.show()
+
     def get_pil_image(self):
         """Returns the underlying PIL image for more extensive manipulation."""
         return self._pil_image
@@ -156,13 +163,29 @@ class Image(object):
             )
         )
 
-    def adjust(sharpness=0, brightness=0, saturation=0, contrast=0):
+    def adjust(self, sharpness=0, brightness=0, saturation=0, contrast=0):
         """
         Adjusts image's sharpness, brightness, saturation (color in PIL)
-        and contrast.
+        and contrast. Accepted scale is from -100 to 100. (0 means unchanged).
         """
+
         # Image will lose transparency info when saturation/contrast
         # is changed, see https://github.com/jdriscoll/django-imagekit/issues/64
+        if saturation:
+            enhancer = ImageEnhance.Color(self._pil_image)
+            self._pil_image = enhancer.enhance(convert_to_pil_factor(saturation))
+        
+        if sharpness:
+            enhancer = ImageEnhance.Sharpness(self._pil_image)
+            self._pil_image = enhancer.enhance(convert_to_pil_factor(sharpness))
+        
+        if brightness:
+            enhancer = ImageEnhance.Brightness(self._pil_image)
+            self._pil_image = enhancer.enhance(convert_to_pil_factor(brightness))
+        
+        if contrast:
+            enhancer = ImageEnhance.Contrast(self._pil_image)
+            self._pil_image = enhancer.enhance(convert_to_pil_factor(contrast))
 
 
 def from_file(path_or_file):
