@@ -20,10 +20,13 @@ class Image(object):
         "filename" refers to image's file name on disk. If an image is opened
         from a URL, it doesn't have a filename until save() is called
         """
-        result = urlparse(path_or_url)
+        if isinstance(path_or_url, string_types):
+            result = urlparse(path_or_url)
+        else:
+            result = None
         # If we receive a URL, use urllib to open the image
         # else, assume it's a filename or file like object
-        if result.scheme in ('http', 'https'):
+        if result is not None and result.scheme in ('http', 'https'):
             file = io.BytesIO(urllib.urlopen(path_or_url).read())
             self._pil_image = PILImage.open(file)
             self.filename = None
