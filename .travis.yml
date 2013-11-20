@@ -6,5 +6,5 @@ python:
 
 script: make test
 
-before_script:
-  - sudo apt-get install python-imaging
+install:
+  - pip install pillow
