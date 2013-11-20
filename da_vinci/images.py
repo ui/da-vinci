@@ -3,7 +3,12 @@ from __future__ import division
 import io
 import os
 import urllib
-from urlparse import urlparse
+
+try:
+    from urlparse import urlparse
+except ImportError:
+    # Python 3 version
+    from urllib.parse import urlparse
 
 from PIL import Image as PILImage
 from PIL import ImageEnhance
