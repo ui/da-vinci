@@ -167,10 +167,11 @@ class ImageTest(unittest.TestCase):
         self.assertTrue(os.path.exists(new_filename))
         os.remove(new_filename)
 
+        # Ensure image can be saved to a file like object
         file_like_object = io.BytesIO()
-        self.assertEqual(file_like_object.getvalue(), '')
+        self.assertFalse(file_like_object.getvalue())
         image.save(file=file_like_object)
-        self.assertNotEqual(file_like_object.getvalue(), '')
+        self.assertTrue(file_like_object.getvalue())
 
         new_filename = 'tests/save2.jpg'
         image.filename = new_filename
