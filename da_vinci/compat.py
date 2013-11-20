@@ -15,3 +15,9 @@ try:
 except ImportError:
     # Python 3 version
     from urllib.parse import urlparse
+
+try:
+    from urllib import urlopen
+except ImportError:
+    # Python 3 version
+    from urllib.request import urlopen

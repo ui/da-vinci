@@ -2,13 +2,12 @@ from __future__ import division
 
 import io
 import os
-import urllib2
 
 from PIL import Image as PILImage
 from PIL import ImageEnhance
 
 from . import formats
-from .compat import string_types, urlparse
+from .compat import string_types, urlopen, urlparse
 from .utils import (calculate_dimensions, convert_to_pil_factor,
                     get_box_dimensions, parse_dimension)
 
@@ -27,7 +26,7 @@ class Image(object):
         # If we receive a URL, use urllib to open the image
         # else, assume it's a filename or file like object
         if result is not None and result.scheme in ('http', 'https'):
-            file = io.BytesIO(urllib2.urlopen(path_or_url).read())
+            file = io.BytesIO(urlopen(path_or_url).read())
             self._pil_image = PILImage.open(file)
             self.filename = None
             self.name = os.path.basename(path_or_url)
