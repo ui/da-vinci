@@ -6,16 +6,16 @@ Requires PIL/Pillow.
 
 Example usage::
 
-    from da_vinci import images
+    from da_vinci import Image
 
-    image = image.from_file('lena.jpg')
+    image = Image('lena.jpg')
     image.flip('horizontal')
     image.resize(width=10, height=10)
     image.quality = 65
     image.save()
 
     # Opening an image from URL, rotating and change it's format
-    image = images.from_url('http://stamps.co.id/static/merchants/img/logo.png')
+    image = Image('http://stamps.co.id/static/merchants/img/logo.png')
     image.rotate(degrees=90)
     image.format = 'jpg'
     image.save() # Creates a file logo.jpg

@@ -13,25 +13,24 @@ from .utils import calculate_dimensions, get_box_dimensions, parse_dimension
 
 class Image(object):
 
-    def __init__(self, path_or_file=None, url=None):
+    def __init__(self, path_or_url):
         """
         "filename" refers to image's file name on disk. If an image is opened
         from a URL, it doesn't have a filename until save() is called
         """
-        #result = urlparse(path_or_url)
-
-        if path_or_file is None and url is None:
-            raise ValueError('"path_or_file" or "url" argument is needed')
-
-        if path_or_file is not None:
-            self._pil_image = PILImage.open(path_or_file)
-            self.filename = self._pil_image.filename
-            self.name = os.path.basename(self.filename)
-        elif url is not None:
-            file = io.BytesIO(urllib.urlopen(url).read())
+        result = urlparse(path_or_url)
+        # If we receive a URL, use urllib to open the image
+        # else, assume it's a filename or file like object
+        if result.scheme in ('http', 'https'):
+            file = io.BytesIO(urllib.urlopen(path_or_url).read())
             self._pil_image = PILImage.open(file)
             self.filename = None
-            self.name = os.path.basename(url)
+            self.name = os.path.basename(path_or_url)
+        else:
+            self._pil_image = PILImage.open(path_or_url)
+            self.filename = self._pil_image.filename
+            self.name = os.path.basename(self.filename)
+
         self._format = self._pil_image.format
         self._quality = None
 
@@ -157,9 +156,9 @@ class Image(object):
 
 def from_file(path_or_file):
     """Returns an image from a given filename or file object."""
-    return Image(path_or_file=path_or_file)
+    return Image(path_or_file)
 
 
 def from_url(url):
     """Returns an image from a URL e.g: http://example.com/food.jpg."""
-    return Image(url=url)
+    return Image(url)
