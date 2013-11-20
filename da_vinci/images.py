@@ -4,16 +4,11 @@ import io
 import os
 import urllib
 
-try:
-    from urlparse import urlparse
-except ImportError:
-    # Python 3 version
-    from urllib.parse import urlparse
-
 from PIL import Image as PILImage
 from PIL import ImageEnhance
 
 from . import formats
+from .compat import string_types, urlparse
 from .utils import (calculate_dimensions, convert_to_pil_factor,
                     get_box_dimensions, parse_dimension)
 
@@ -62,7 +57,7 @@ class Image(object):
         return self._pil_image.mode
 
     def _set_format(self, format):
-        if isinstance(format, basestring):
+        if isinstance(format, string_types):
             format = format.lower()
         self._format = formats.MAPPING[format]
 
