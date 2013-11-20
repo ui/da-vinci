@@ -1,6 +1,6 @@
 A simple image manipulation library aiming to make common image/photo
-manipulation tasks easy. This library is still under heavy development,
-API may also change at any time. Use at your own risk.
+manipulation tasks easy. This library is still under development,
+API may also change at any time.
 
 Requires PIL/Pillow.
 
@@ -19,7 +19,13 @@ Example usage::
     image.set(format='jpg', quality=85)
     image.save() # Creates a file logo.jpg
 
-If you need to do more extensive manipulation, an escape hatch to PIL
+    # Manipulating saturation, brightness, contrast and sharpness
+    # Accepts values range from -100 (decrease) to 100 (increase)
+    image.adjust(saturation=-100)
+    image.adjust(brightness=-75, contrast=50, sharpness=-20)
+
+
+If you need more extensive manipulation, an escape hatch to PIL
 is also available::
 
     image = image.from_file('a.jpg')
