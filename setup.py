@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='da-vinci',
-    version='0.1.0',
+    version='0.2.0',
     author='Selwin Ong',
     author_email='selwin.ong@gmail.com',
     packages=['da_vinci'],
@@ -23,6 +23,8 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Multimedia :: Graphics'
     ]
