@@ -147,7 +147,8 @@ class Image(object):
           the image may not be within the specified dimension.
         """
         self._pil_image = self._pil_image.resize(
-            calculate_dimensions(width, height, self.width, self.height, method),
+            calculate_dimensions(width, height, self.width, self.height,
+                                 method=method),
             resample=PILImage.ANTIALIAS
         )
 
