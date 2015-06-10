@@ -39,3 +39,10 @@ Tests
 To run tests::
 
     python -m unittest tests
+
+Changelog
+---------
+
+Version 0.2.2
+=============
+* Added bmp extension support
