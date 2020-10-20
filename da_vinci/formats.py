@@ -16,5 +16,6 @@ EXTENSIONS = {
     'PNG': 'png',
     'PDF': 'pdf',
     'TIFF': 'tif',
-    'BMP': 'bmp'
+    'BMP': 'bmp',
+    'WEBP': 'webp'
 }
