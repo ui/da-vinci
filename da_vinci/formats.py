@@ -8,6 +8,7 @@ MAPPING = {
     'pdf': 'PDF',
     'tif': 'TIFF',
     'tiff': 'TIFF',
+    'webp': 'WEBP'
 }
 
 EXTENSIONS = {
