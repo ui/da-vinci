@@ -179,6 +179,27 @@ class ImageTest(unittest.TestCase):
         self.assertTrue(os.path.exists(new_filename))
         os.remove(new_filename)
 
+        # Ensure webp image can saved
+        image = images.from_file('tests/image.webp')
+        self.assertEqual(image._format, 'WEBP')
+        new_filename = 'tests/save.webp'
+        image.save(filename=new_filename)
+        self.assertEqual(image.filename, new_filename)
+        self.assertTrue(os.path.exists(new_filename))
+        os.remove(new_filename)
+
+        # Ensure webp image can be saved to a file like object
+        file_like_object = io.BytesIO()
+        self.assertFalse(file_like_object.getvalue())
+        image.save(file=file_like_object)
+        self.assertTrue(file_like_object.getvalue())
+
+        new_filename = 'tests/save2.webp'
+        image.filename = new_filename
+        image.save()
+        self.assertTrue(os.path.exists(new_filename))
+        os.remove(new_filename)
+
     def test_rotate(self):
         image = images.from_file('tests/10x20.jpg')
         self.assertEqual(image.width, 10)
@@ -229,7 +250,7 @@ class ImageTest(unittest.TestCase):
         image.save(new_filename)
         os.remove(image.filename)
 
-        # Webp test
+        # Ensure webp can saved
         image.format = 'webp'
         image.save(new_filename)
         os.remove(image.filename)
