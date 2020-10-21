@@ -43,6 +43,10 @@ To run tests::
 Changelog
 ---------
 
+Version 0.3.0
+=============
+* Added webp extension support
+
 Version 0.2.2
 =============
 * Added bmp extension support
