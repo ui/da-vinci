@@ -179,6 +179,27 @@ class ImageTest(unittest.TestCase):
         self.assertTrue(os.path.exists(new_filename))
         os.remove(new_filename)
 
+        # Ensure webp image can saved
+        image = images.from_file('tests/image.webp')
+        self.assertEqual(image._format, 'WEBP')
+        new_filename = 'tests/save.webp'
+        image.save(filename=new_filename)
+        self.assertEqual(image.filename, new_filename)
+        self.assertTrue(os.path.exists(new_filename))
+        os.remove(new_filename)
+
+        # Ensure webp image can be saved to a file like object
+        file_like_object = io.BytesIO()
+        self.assertFalse(file_like_object.getvalue())
+        image.save(file=file_like_object)
+        self.assertTrue(file_like_object.getvalue())
+
+        new_filename = 'tests/save2.webp'
+        image.filename = new_filename
+        image.save()
+        self.assertTrue(os.path.exists(new_filename))
+        os.remove(new_filename)
+
     def test_rotate(self):
         image = images.from_file('tests/10x20.jpg')
         self.assertEqual(image.width, 10)
@@ -196,6 +217,8 @@ class ImageTest(unittest.TestCase):
         self.assertEqual(image.format, 'JPEG')
         image.format = 'png'
         self.assertEqual(image.format, 'PNG')
+        image.format = "webp"
+        self.assertEqual(image.format, 'WEBP')
 
     def test_get_filename(self):
         # get_filename return its original filename if there's no changes
@@ -207,6 +230,13 @@ class ImageTest(unittest.TestCase):
         # get_filename falls back to self.name
         image.filename = None
         self.assertEqual(image.get_filename(), '10x20.png')
+        # get_filename returns the right filename if format is changed (webp)
+        image = images.from_file('tests/10x20.jpg')
+        image.format = 'webp'
+        self.assertEqual(image.get_filename(), 'tests/10x20.webp')
+        # get_filename falls back to self.name (webp)
+        image.filename = None
+        self.assertEqual(image.get_filename(), '10x20.webp')
 
     def test_quality(self):
         # Setting quality parameter shouldn't mess up image.save
@@ -217,5 +247,10 @@ class ImageTest(unittest.TestCase):
         os.remove(image.filename)
 
         image.format = 'png'
+        image.save(new_filename)
+        os.remove(image.filename)
+
+        # Ensure webp can saved
+        image.format = 'webp'
         image.save(new_filename)
         os.remove(image.filename)
