@@ -4,7 +4,7 @@ import io
 import os
 
 from PIL import Image as PILImage
-from PIL import ImageEnhance
+from PIL import ImageEnhance, ImageOps
 
 from . import formats
 from .compat import string_types, urlopen, urlparse
@@ -35,6 +35,7 @@ class Image(object):
             self.filename = self._pil_image.filename
             self.name = os.path.basename(self.filename)
 
+        self._pil_image = ImageOps.exif_transpose(self._pil_image)
         self._format = self._pil_image.format
         self._quality = None
 
