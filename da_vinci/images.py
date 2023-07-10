@@ -2,9 +2,10 @@ from __future__ import division
 
 import io
 import os
+from pathlib import Path
 
 from PIL import Image as PILImage
-from PIL import ImageEnhance
+from PIL import ImageEnhance, ImageOps
 
 from . import formats
 from .compat import string_types, urlopen, urlparse
@@ -32,10 +33,11 @@ class Image(object):
             self.name = os.path.basename(path_or_url)
         else:
             self._pil_image = PILImage.open(path_or_url)
-            self.filename = self._pil_image.filename
+            self.filename = self._pil_image.filename if self._pil_image.filename else path_or_url.name
             self.name = os.path.basename(self.filename)
 
         self._format = self._pil_image.format
+        self._pil_image = ImageOps.exif_transpose(self._pil_image)
         self._quality = None
 
     @property
