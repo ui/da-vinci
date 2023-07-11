@@ -2,7 +2,6 @@ from __future__ import division
 
 import io
 import os
-from pathlib import Path
 
 from PIL import Image as PILImage
 from PIL import ImageEnhance, ImageOps
@@ -148,10 +147,15 @@ class Image(object):
           dimension is completely covered. Aspect ratio is preserved, parts of
           the image may not be within the specified dimension.
         """
+        try:
+            resample = PILImage.ANTIALIAS
+        except AttributeError:
+            resample = PILImage.LANCZOS
+
         self._pil_image = self._pil_image.resize(
             calculate_dimensions(width, height, self.width, self.height,
                                  method=method),
-            resample=PILImage.ANTIALIAS
+            resample=resample
         )
 
     def crop(self, width, height, center=('50%', '50%'),
