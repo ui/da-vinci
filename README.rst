@@ -43,6 +43,11 @@ To run tests::
 Changelog
 ---------
 
+Version 0.4.0
+=============
+* Support Pillow 10
+* Preserve EXIF data when image is rotated
+
 Version 0.3.0
 =============
 * Added webp extension support
