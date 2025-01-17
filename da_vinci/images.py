@@ -119,7 +119,7 @@ class Image(object):
         """Rotates image by specified number of degrees."""
         self._pil_image = self._pil_image.rotate(degrees)
 
-    def save(self, filename=None, file=None):
+    def save(self, filename=None, file=None, fill_color=(255, 255, 255)):
         """Saves the image to disk. If image doesn't have a filename, it's
         assigned one.
         """
@@ -136,7 +136,7 @@ class Image(object):
 
         # fill with color instead of removing alpha, to make a fixed bg color
         if self._pil_image.mode in ("RGBA", "LA", "PA") and self.format == "JPEG":
-            rgb_image = PILImage.new(self._pil_image.mode[:-1], self._pil_image.size, (255, 255, 255))
+            rgb_image = PILImage.new(self._pil_image.mode[:-1], self._pil_image.size, fill_color)
             rgb_image.paste(self._pil_image, self._pil_image.split()[-1])
             self._pil_image = rgb_image
 
