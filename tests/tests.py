@@ -200,7 +200,7 @@ class ImageTest(unittest.TestCase):
         self.assertTrue(os.path.exists(new_filename))
         os.remove(new_filename)
 
-        # test RGBA PNG into RGB JPEG, no crash happens, and image is converted to
+        # test RGBA PNG into RGB JPEG, no crash happens, and image is converted to RGB
         image = images.from_file("tests/no_bg.png")
         image.format = "jpg"
         image.save(file=file_like_object)
