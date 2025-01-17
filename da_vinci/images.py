@@ -135,7 +135,6 @@ class Image(object):
             kwargs['quality'] = self.quality
 
         # fill with color instead of removing alpha, to make a fixed bg color
-        # ref: https://github.com/python-pillow/Pillow/issues/2609#issuecomment-313922483
         if self._pil_image.mode in ("RGBA", "LA", "PA") and self.format == "JPEG":
             rgb_image = PILImage.new(self._pil_image.mode[:-1], self._pil_image.size, (255, 255, 255))
             rgb_image.paste(self._pil_image, self._pil_image.split()[-1])
