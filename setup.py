@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='da-vinci',
-    version='0.4.0',
+    version='0.5.0',
     author='Selwin Ong',
     author_email='selwin.ong@gmail.com',
     packages=['da_vinci'],

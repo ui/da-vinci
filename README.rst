@@ -43,6 +43,10 @@ To run tests::
 Changelog
 ---------
 
+Version 0.5.0
+=============
+* Added support for converting transparent images to JPEG using a background color. Thanks @marsha97!
+
 Version 0.4.0
 =============
 * Support Pillow 10
