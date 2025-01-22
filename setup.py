@@ -10,7 +10,7 @@ setup(
     url='https://github.com/ui/da-vinci',
     license='MIT',
     description='A simple image manipulation library aiming to make common image tasks easy.',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     zip_safe=False,
     include_package_data=True,
     package_data={'': ['README.md']},
