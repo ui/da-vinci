@@ -13,7 +13,7 @@ setup(
     long_description=open('README.rst').read(),
     zip_safe=False,
     include_package_data=True,
-    package_data={'': ['README.rst']},
+    package_data={'': ['README.md']},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         'Intended Audience :: Developers',
@@ -28,6 +28,8 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Multimedia :: Graphics'
     ]
